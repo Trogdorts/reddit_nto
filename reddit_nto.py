@@ -3,6 +3,18 @@ import os.path
 from urllib.request import urlopen, Request
 import pandas as pd
 import json
+import logging
+
+logging.basicConfig(filename='reddit_nto.log',
+                    filemode='a',
+                    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                    datefmt='%H:%M:%S',
+                    level=logging.DEBUG)
+
+logging.info("Running Reddit NotTheOnion Script")
+logger = logging.getLogger('reddit_nto')
+
+
 
 # How far to look back, join to the url
 top_options = ['hour', 'day', 'month', 'week', 'year', 'all']
@@ -26,7 +38,7 @@ for option in named_options:
 
 # Process each URL
 for url in urls:
-  print(url)
+  logger.debug(f"Fetching {url}")
   try:
     # Provide a user-agent because reddit doesnt like programs spamming it
     response = urlopen(Request(url, headers={'User-Agent': 'Mozilla'}))
@@ -44,16 +56,17 @@ for url in urls:
       if id not in dataDict.keys():
         dataDict[id] = title
   except Exception as e:
-    print(e)
+    print(f"Failed processing {url} with error: {e}")
 
 # Convert dictionary into a pandas dataframe
 df1 = pd.DataFrame(dataDict.items(), columns=['id', 'title'])
 
 if os.path.exists("data.csv"):
+  logger.info("Merging new titles into the existing titles.")
   df2 = pd.read_csv('data.csv')
   pd1 = pd.concat([df1, df2]).drop_duplicates().reset_index(drop=True)
-
-print(df1)
+else:
+  logger.info("First run, creating the csv file.")
 df1.to_csv('data.csv', index=False)
 
 

@@ -9,7 +9,11 @@
           <option name="fileUrl" value="file://$PROJECT_DIR$/README.md" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="0" />
+          <option name="caretOffset" value="1047" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/reddit_nto.log" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="469" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/reddit_nto.py" />
         </OpenedFileInfo>
       </list>
