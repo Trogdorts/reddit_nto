@@ -6,7 +6,10 @@ import json
 import logging
 import sys
 
-logging.basicConfig(filename='reddit_nto.log',
+# Save the log file in the local directory
+LOG_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), "reddit_nto.log")
+
+logging.basicConfig(filename=LOG_FILE,
                     filemode='a',
                     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                     datefmt='%H:%M:%S',
