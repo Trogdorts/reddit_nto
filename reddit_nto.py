@@ -4,6 +4,7 @@ from urllib.request import urlopen, Request
 import pandas as pd
 import json
 import logging
+import sys
 
 logging.basicConfig(filename='reddit_nto.log',
                     filemode='a',
@@ -56,7 +57,7 @@ for url in urls:
       if id not in dataDict.keys():
         dataDict[id] = title
   except Exception as e:
-    print(f"Failed processing {url} with error: {e}")
+    logger.error(f"Failed processing {url} with error: {e}")
 
 # Convert dictionary into a pandas dataframe
 df1 = pd.DataFrame(dataDict.items(), columns=['id', 'title'])
@@ -68,7 +69,8 @@ if os.path.exists("data.csv"):
 else:
   logger.info("First run, creating the csv file.")
 df1.to_csv('data.csv', index=False)
-
+logger.info("Exiting.")
+sys.exit()
 
 
 
