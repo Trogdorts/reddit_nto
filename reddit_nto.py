@@ -8,6 +8,7 @@ import sys
 
 # Save the log file in the local directory
 LOG_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), "reddit_nto.log")
+DATA_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data.csv")
 
 logging.basicConfig(filename=LOG_FILE,
                     filemode='a',
@@ -65,13 +66,13 @@ for url in urls:
 # Convert dictionary into a pandas dataframe
 df1 = pd.DataFrame(dataDict.items(), columns=['id', 'title'])
 
-if os.path.exists("data.csv"):
+if os.path.exists(DATA_FILE):
   logger.info("Merging new titles into the existing titles.")
-  df2 = pd.read_csv('data.csv')
+  df2 = pd.read_csv(DATA_FILE)
   pd1 = pd.concat([df1, df2]).drop_duplicates().reset_index(drop=True)
 else:
   logger.info("First run, creating the csv file.")
-df1.to_csv('data.csv', index=False)
+pd1.to_csv(DATA_FILE, index=False)
 logger.info("Exiting.")
 sys.exit()
 
